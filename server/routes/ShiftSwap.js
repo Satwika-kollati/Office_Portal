@@ -1,22 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const {
-    getShiftRequests,
-    requestShiftSwap,
+    getShiftSwap,
+    submitShiftSwap,
     acceptShiftSwap,
-    submitToOfficeHead   
+    sendToOfficeHead,
+    officeHeadApproval 
 } = require('../controllers/ShiftSwapController');
 const requireAuth = require('../middleware/authMiddleware');
 
 //middleware
 router.use(requireAuth);
 
-router.get('/shiftRequests/:organizationId', getShiftRequests);
+router.get('/getShiftSwap', getShiftSwap);
 
-router.post('/requestShiftSwap/:organizationId', requestShiftSwap);
+router.post('/submitShiftSwap',submitShiftSwap);
 
-router.put('/acceptShiftSwap/:requestId/:accepterId', acceptShiftSwap);
+router.post('/acceptShiftSwap', acceptShiftSwap);
 
-router.put('/submitToOfficeHead/:requestId/:officeHeadId', submitToOfficeHead);
+router.post('/sendToOfficeHead',sendToOfficeHead);
+
+router.post('/officeHeadApproval', officeHeadApproval);
 
 module.exports = router;

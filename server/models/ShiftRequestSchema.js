@@ -1,42 +1,40 @@
 const mongoose = require('mongoose');
 
 const shiftRequestSchema = new mongoose.Schema({
-  requester: {
-    _id: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User' 
-    },
-    username:{
+  requesterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  acceptorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  organisationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organisation',
+    required: true,
+  },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['Pending', 'Accepted','Approved', 'Rejected', 'Expired'],
+    default: 'Pending',
+  },
+  officeHeadApproval: {
+    status: {
       type: String,
+      enum: ['Pending', 'Approved', 'Rejected'],
     },
-    organizationId: String,
+    reason: String,
   },
-  accepter: { 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User' 
-  },
-  approvedBy: { 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'OfficeHead'
-  },
-  date: { 
-    type: Date, 
-    required: true, 
-    validate: [dateValidator, 'Date must be in the future'] 
-  },
-  time: { 
-    type: String, 
-    required: true 
-  },
-});
+}, { timestamps: true });
 
-function dateValidator(value) {
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); 
-    return value >= currentDate;
-}
-  
-
-const ShiftRequest = mongoose.model('ShiftRequest', shiftRequestSchema);
-
-module.exports = ShiftRequest;
+module.exports = mongoose.model('ShiftRequest', shiftRequestSchema);

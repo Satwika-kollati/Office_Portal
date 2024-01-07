@@ -58,7 +58,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organisation',
         required: true,
-    }
+    },
+    shiftRequests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ShiftRequest',
+      }],
 }, { timestamps: true });
 
 
